@@ -1,0 +1,99 @@
+<main class="tool-page-container">
+    <div class="tool-header">
+        <h1>Online Image Converter</h1>
+        <p>Convert your image files to different formats like JPG, PNG, WebP, GIF, or BMP. Fast, free, and secure conversion right in your browser.</p>
+    </div>
+
+    <div class="tool-box">
+        <label for="file-input" class="upload-area" id="upload-area">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <div class="upload-area-text">
+                <strong>Drag & Drop</strong> your image here or<br><strong>Click to Upload</strong>
+            </div>
+        </label>
+        <input type="file" id="file-input" accept="image/*">
+
+        <div id="file-preview-area">
+            <button id="remove-file-btn" title="Remove file">&times;</button>
+            <img id="preview-thumbnail" src="" alt="Image Preview">
+            <div id="preview-info">
+                <div id="file-name"></div>
+                <div id="file-size"></div>
+            </div>
+        </div>
+
+        <div class="options-section" id="options-section">
+            <div class="options-grid">
+                <div class="option-group">
+                    <label for="format-select">Convert to:</label>
+                    <select id="format-select">
+                        <option value="jpeg">JPG</option>
+                        <option value="png">PNG</option>
+                        <option value="webp">WebP</option>
+                        <option value="gif">GIF</option>
+                        <option value="bmp">BMP</option>
+                    </select>
+                </div>
+                <div class="option-group" id="quality-option">
+                    <label for="quality-slider">Quality: <span id="quality-display" class="quality-display">0.92</span></label>
+                    <input type="range" id="quality-slider" min="0.1" max="1" step="0.01" value="0.92">
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons" id="action-buttons">
+            <button class="btn btn-primary" id="convert-btn" disabled>
+                <i class="fas fa-exchange-alt" style="margin-right: 10px;"></i> Convert Image
+            </button>
+        </div>
+
+        <div class="result-section" id="result-section">
+            <h2>Success!</h2>
+            <p class="result-file-info">
+                Original: <span id="original-size"></span> | 
+                New: <span id="new-size"></span>
+            </p>
+            <div class="download-buttons">
+                <a href="#" class="btn btn-success" id="download-btn" download>
+                    <i class="fas fa-download" style="margin-right: 10px;"></i> Download
+                </a>
+                <button class="btn btn-secondary" id="reset-btn">
+                    <i class="fas fa-sync-alt" style="margin-right: 10px;"></i> Start Over
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <section class="content-section" id="how-to">
+        <h2><i class="fas fa-question-circle"></i>How to Use the Image Converter</h2>
+        <ol class="how-to-steps">
+            <li><strong>Select Your Image:</strong> Click the <strong>Drag & Drop</strong> area to select an image file from your computer, or simply drag it onto the designated space.</li>
+            <li><strong>Choose Output Format:</strong> Once your image preview appears, choose your desired output format from the "Convert to:" dropdown menu (e.g., JPG, PNG, WebP).</li>
+            <li><strong>Adjust Quality (Optional):</strong> For formats like JPG and WebP, you can adjust the quality slider to balance file size and visual fidelity. Higher quality means a larger file size.</li>
+            <li><strong>Convert and Download:</strong> Click the <strong>Convert Image</strong> button. After a moment, the result box will appear with a "Download" button to save your new file and a "Start Over" button to process another image.</li>
+        </ol>
+    </section>
+
+    <section class="content-section" id="faq">
+        <h2><i class="fas fa-comments"></i>Frequently Asked Questions</h2>
+        <details class="faq-item" open>
+            <summary>Is this image converter tool free to use?</summary>
+            <div class="faq-answer">
+                <p>Yes, absolutely! Our online Image Converter is 100% free to use for everyone. There are no hidden charges, watermarks, or usage limits.</p>
+            </div>
+        </details>
+        <details class="faq-item" open>
+            <summary>Are my uploaded images secure?</summary>
+            <div class="faq-answer">
+                <p>Your privacy and security are our top priority. This tool works entirely within your web browser (client-side). This means your images are <strong>never uploaded to our servers</strong>. All conversion processes happen locally on your own computer, ensuring your files remain completely private.</p>
+            </div>
+        </details>
+    </section>
+</main>
+
+<script>
+    // All the JavaScript for the Image Converter Tool
+    const fileInput = document.getElementById('file-input');
+    const uploadArea = document.getElementById('upload-area');
+    // ... rest of your tool-specific script goes here
+</script>
