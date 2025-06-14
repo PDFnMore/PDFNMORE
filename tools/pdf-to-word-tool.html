@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPT to PDF Converter - Free & Online | PDFnMore</title>
+    <meta name="description" content="Convert your Microsoft PowerPoint presentations (.pptx) to high-quality PDF files for free. Our online converter preserves your slides, images, and formatting.">
+    <link rel="canonical" href="https://your-domain.com/ppt-to-pdf.html" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #E53935; --accent: #2C3E50; --light: #ffffff; --light-gray: #f8f9fa; --medium-gray: #e9ecef; --dark-gray: #495057; --dark: #212529; --success: #28a745; --ppt-orange: #D04423;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--light-gray); color: var(--dark); line-height: 1.6; }
+        header { background-color: var(--light); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000; padding: 15px 5%; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .header-left { display: flex; align-items: center; gap: 40px; }
+        .logo { display: flex; align-items: center; text-decoration: none; }
+        .logo-icon { font-size: 28px; color: var(--primary); margin-right: 10px; position: relative; }
+        .logo-gear { font-size: 14px; color: var(--accent); position: absolute; left: 18px; top: 8px; }
+        .logo-text { font-size: 22px; font-weight: 700; color: var(--accent); }
+        .logo-text span { color: var(--primary); font-weight: 800; }
+        .logo-text .light { font-weight: 400; color: var(--accent); }
+        nav ul { display: flex; list-style: none; gap: 25px; }
+        nav ul li a { text-decoration: none; color: var(--accent); font-weight: 500; transition: color 0.3s; display: flex; align-items: center; gap: 8px; }
+        nav ul li a:hover { color: var(--primary); }
+        .header-right { display: flex; align-items: center; }
+        .social-icons { display: flex; align-items: center; gap: 15px; }
+        .social-icons a { color: var(--accent); font-size: 18px; transition: color 0.3s; text-decoration: none; }
+        .social-icons a:hover { color: var(--primary); }
+        .contact-email { margin-left: 20px; color: var(--accent); font-size: 14px; padding-left: 20px; border-left: 1px solid var(--medium-gray); }
+
+        .tool-page-container { max-width: 800px; margin: 0 auto; padding: 40px 5%; }
+        .tool-header { text-align: center; margin-bottom: 40px; }
+        .tool-header .breadcrumbs { margin-bottom: 10px; color: var(--dark-gray); font-size: 15px; }
+        .tool-header .breadcrumbs a { color: var(--primary); text-decoration: none; }
+        .tool-header .breadcrumbs a:hover { text-decoration: underline; }
+        .tool-header h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 10px; }
+        .tool-header p { font-size: 1.1rem; color: var(--dark-gray); max-width: 800px; margin: 0 auto; }
+        .tool-box { background-color: var(--light); border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); padding: 30px; border: 1px solid var(--medium-gray); }
+        
+        .upload-area { border: 3px dashed var(--medium-gray); border-radius: 10px; padding: 40px 20px; text-align: center; cursor: pointer; transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 250px; }
+        .upload-area.drag-over { border-color: var(--ppt-orange); background-color: rgba(208, 68, 35, 0.05); }
+        #file-input { display: none; }
+        
+        .file-preview-area { display: none; border: 1px solid var(--medium-gray); border-radius: 10px; padding: 20px; background-color: var(--light-gray); position: relative; text-align: center; }
+        #remove-file-btn { position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; background: var(--dark-gray); color: white; border: none; border-radius: 50%; cursor: pointer; z-index: 10; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+        .file-icon { font-size: 4rem; color: var(--ppt-orange); margin-bottom: 15px; }
+        #file-name { font-weight: 600; color: var(--accent); word-break: break-all; }
+        
+        .action-buttons { text-align: center; margin-top: 30px; display: none; }
+        .btn { padding: 14px 30px; border-radius: 5px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; cursor: pointer; border: none; justify-content: center; }
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-primary:disabled { background-color: var(--medium-gray); color: var(--dark-gray); cursor: not-allowed; }
+        
+        .result-section { display: none; margin-top: 30px; text-align: center; background-color: var(--light-gray); padding: 20px; border-radius: 8px; }
+        .result-section h2 { color: var(--success); margin-bottom: 20px; }
+        
+        .content-section { background-color: var(--light); padding: 40px; margin-top: 40px; border-radius: 10px; border: 1px solid var(--medium-gray); }
+        .section-title { text-align: left; margin-bottom: 40px; padding-bottom: 15px; border-bottom: 2px solid var(--medium-gray); }
+        .section-title h2 { font-size: 2rem; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+        .how-to-steps { list-style: none; counter-reset: step-counter; padding-left: 0; }
+        .how-to-steps li { counter-increment: step-counter; margin-bottom: 20px; display: flex; align-items: flex-start; }
+        .how-to-steps li::before { content: counter(step-counter); background: var(--primary); color: white; font-weight: bold; border-radius: 50%; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
+        .faq-item { margin-bottom: 10px; }
+        
+        footer { background-color: var(--accent); color: white; padding: 60px 5% 30px; margin-top: 60px; box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05); }
+        .footer-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+        .footer-logo { display: flex; align-items: center; margin-bottom: 25px; }
+        .footer-logo .logo-icon { color: white; }
+        .footer-logo .logo-gear { color: white; }
+        .footer-logo .logo-text { color: white; font-size: 24px; }
+        .footer-logo .logo-text span { color: var(--primary); }
+        .footer-logo .logo-text .light { color: rgba(255, 255, 255, 0.9); }
+        .footer-about p { color: rgba(255, 255, 255, 0.7); margin-bottom: 25px; line-height: 1.7; }
+        .footer-links h3, .footer-contact h3 { color: white; margin-bottom: 25px; font-size: 20px; position: relative; padding-bottom: 10px; }
+        .footer-links h3::after, .footer-contact h3::after { content: ""; position: absolute; bottom: 0; left: 0; width: 50px; height: 2px; background-color: var(--primary); }
+        .footer-links ul { list-style: none; padding: 0; }
+        .footer-links ul li { margin-bottom: 12px; }
+        .footer-links ul li a { color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: all 0.3s; display: inline-block; }
+        .footer-links ul li a:hover { color: var(--primary); transform: translateX(5px); }
+        .footer-contact p { color: rgba(255, 255, 255, 0.7); margin-bottom: 15px; display: flex; align-items: center; transition: all 0.3s; }
+        .footer-contact i { margin-right: 12px; color: var(--primary); font-size: 18px; min-width: 25px; }
+        .footer-social { margin-top: 25px; }
+        .footer-social a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: rgba(255, 255, 255, 0.1); color: white; border-radius: 50%; margin-right: 10px; text-decoration: none; }
+        .footer-social a:hover { background-color: var(--primary); transform: translateY(-3px); }
+        .footer-bottom { text-align: center; padding-top: 40px; margin-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.5); font-size: 14px; grid-column: 1 / -1; }
+        .logo-inline { display: inline-flex; align-items: center; vertical-align: middle; }
+        .logo-inline .logo-text .light { color: rgba(255,255,255,0.9); }
+        
+        @media (max-width: 992px) { .footer-container { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .header-container { flex-direction: column; gap: 15px; } .header-left, .header-right { width: 100%; justify-content: space-between; } .contact-email { display: none; } .tool-header h1 { font-size: 2rem; } .content-section { padding: 25px; } }
+        @media (max-width: 576px) { .footer-container { grid-template-columns: 1fr; } .tool-box { padding: 20px; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="header-left">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><i class="fas fa-file-alt"></i><i class="fas fa-cog logo-gear"></i></div>
+                    <div class="logo-text"><span>PDF</span><span class="light">nMore</span></div>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="index.html#tools"><i class="fas fa-tools"></i> Tools</a></li>
+                        <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
+                        <li><a href="#footer"><i class="fas fa-envelope"></i> Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-right">
+                <div class="social-icons">
+                    <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a><a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a><a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span class="contact-email">pdfnmore@gmail.com</span>
+            </div>
+        </div>
+    </header>
+    
+    <main class="tool-page-container">
+        <div class="tool-header">
+            <p class="breadcrumbs"><a href="index.html">Home</a> &gt; <a href="index.html#pdf-tools">PDF & Document Tools</a> &gt; <span>PPT to PDF Converter</span></p>
+            <h1>PPT to PDF Converter</h1>
+            <p>Convert your PowerPoint presentations (.pptx) into professional, easy-to-share PDF documents.</p>
+        </div>
+
+        <div class="tool-box">
+            <label for="file-input" class="upload-area" id="upload-area">
+                <i class="fas fa-file-powerpoint" style="font-size: 3rem; margin-bottom: 1rem; color: var(--ppt-orange);"></i>
+                <div class="upload-area-text"><strong>Drag & Drop</strong> your PowerPoint file here or<br><strong>Click to Upload</strong></div>
+            </label>
+            <input type="file" id="file-input" accept=".pptx, application/vnd.openxmlformats-officedocument.presentationml.presentation">
+
+            <div class="file-preview-area" id="file-preview-area">
+                <button id="remove-file-btn" title="Remove file">&times;</button>
+                <i class="fas fa-file-pdf file-icon"></i>
+                <div id="file-info"><div id="file-name"></div></div>
+            </div>
+
+            <div class="action-buttons" id="action-buttons">
+                <button class="btn btn-primary" id="convert-btn" disabled>
+                    <i class="fas fa-exchange-alt" style="margin-right: 10px;"></i> Convert to PDF
+                </button>
+            </div>
+
+            <div class="result-section" id="result-section">
+                <h2><i class="fas fa-check-circle" style="color: var(--success);"></i> Conversion Complete!</h2>
+                <a href="#" class="btn" id="download-btn" download style="background-color: var(--success); color: white;"><i class="fas fa-download" style="margin-right: 10px;"></i> Download PDF File</a>
+            </div>
+        </div>
+
+        <section class="content-section">
+            <div class="section-title"><h2><i class="fas fa-question-circle"></i>How to Convert PowerPoint to PDF</h2></div>
+            <ol class="how-to-steps">
+                <li><strong>Select Your PPTX File:</strong> Drag your .pptx file into the upload area, or click to select a file from your device.</li>
+                <li><strong>Start the Conversion:</strong> Click the "Convert to PDF" button to start the process.</li>
+                <li><strong>Download Your PDF:</strong> After the conversion finishes, a download button will appear. Click it to save your new PDF file.</li>
+            </ol>
+        </section>
+
+        <section class="content-section">
+             <div class="section-title"><h2><i class="fas fa-comments"></i>Frequently Asked Questions</h2></div>
+            <details class="faq-item" open><summary>Why should I convert a PowerPoint to PDF?</summary><div class="faq-answer"><p>Converting your presentation to PDF ensures that everyone sees your slides exactly as you designed them, with all fonts, images, and formatting intact, regardless of the device or software they use.</p></div></details>
+            <details class="faq-item"><summary>Will my animations and transitions be preserved?</summary><div class="faq-answer"><p>No. PDF is a static format, so animations, transitions, and embedded videos from your PowerPoint will not be included in the final PDF. Each slide will be converted into a static page.</p></div></details>
+            <details class="faq-item"><summary>Are my presentation files secure?</summary><div class="faq-answer"><p>We prioritize your privacy. Files are sent securely to the Cloudmersive conversion API and are not stored long-term. For highly sensitive documents, always consider the privacy policy of any online service.</p></div></details>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <div class="footer-container">
+            <div class="footer-about">
+                <div class="footer-logo"><div class="logo-icon"><i class="fas fa-file-alt"></i><i class="fas fa-cog logo-gear"></i></div><div class="logo-text"><span>PDF</span><span class="light">nMore</span></div></div>
+                <p>Making everyday digital tasks easier with our comprehensive suite of free online tools for PDFs, images, text, web development, and more.</p>
+                <div class="footer-social"><a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a><a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a><a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a></div>
+            </div>
+            <div class="footer-links">
+                <h3>Tool Categories</h3>
+                <ul>
+                    <li><a href="index.html#image-tools"><i class="fas fa-image"></i> Image Tools</a></li>
+                    <li><a href="index.html#pdf-tools"><i class="fas fa-file-pdf"></i> PDF Tools</a></li>
+                    <li><a href="index.html#calculator-tools"><i class="fas fa-calculator"></i> Calculator Tools</a></li>
+                    <li><a href="index.html#text-tools"><i class="fas fa-font"></i> Text Tools</a></li>
+                    <li><a href="index.html#web-tools"><i class="fas fa-code"></i> Developer Tools</a></li>
+                    <li><a href="index.html#color-tools"><i class="fas fa-palette"></i> Color Tools</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="index.html#tools"><i class="fas fa-tools"></i> All Tools</a></li>
+                    <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="#"><i class="fas fa-blog"></i> Blog</a></li>
+                    <li><a href="#"><i class="fas fa-graduation-cap"></i> Tutorials</a></li>
+                    <li><a href="#footer"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact & Legal</h3>
+                <p><i class="fas fa-envelope"></i> pdfnmore@gmail.com</p>
+                <ul style="list-style: none; margin-top: 15px;">
+                    <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fas fa-file-contract"></i> Terms of Use</a></li>
+                    <li><a href="#"><i class="fas fa-cookie"></i> Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2023 <span class="logo-inline"><span class="logo-icon"><i class="fas fa-file-alt"></i><i class="fas fa-cog logo-gear"></i></span><span class="logo-text"><span>PDF</span><span class="light">nMore</span></span></span>. All rights reserved. | Making digital life simpler since 2023</p></div>
+    </footer>
+    
+    <script>
+        const fileInput = document.getElementById('file-input'); const uploadArea = document.getElementById('upload-area'); const previewArea = document.getElementById('file-preview-area'); const removeFileBtn = document.getElementById('remove-file-btn'); const fileNameEl = document.getElementById('file-name'); const actionButtons = document.getElementById('action-buttons'); const convertBtn = document.getElementById('convert-btn'); const resultSection = document.getElementById('result-section'); const downloadBtn = document.getElementById('download-btn');
+        const apiKey = 'a5449a4a-4c48-4133-a4c1-79e702f699b6';
+        let selectedFile = null;
+
+        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
+        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
+        uploadArea.addEventListener('drop', (e) => { e.preventDefault(); uploadArea.classList.remove('drag-over'); const files = e.dataTransfer.files; if (files.length > 0) handleFile(files[0]); });
+        fileInput.addEventListener('change', () => { if (fileInput.files.length > 0) handleFile(fileInput.files[0]); });
+        removeFileBtn.addEventListener('click', resetTool);
+        convertBtn.addEventListener('click', convertToPdf);
+
+        function handleFile(file) {
+            const validTypes = ['application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+            if (!validTypes.includes(file.type)) { alert('Please upload a valid PowerPoint file (.pptx).'); return; }
+            if(apiKey === 'YOUR_CLOUDMERSIVE_API_KEY') { alert('API Key is not set. Please edit the HTML file to add your Cloudmersive API key.'); }
+            selectedFile = file;
+            uploadArea.style.display = 'none';
+            previewArea.style.display = 'block';
+            actionButtons.style.display = 'block';
+            resultSection.style.display = 'none';
+            fileNameEl.textContent = file.name;
+            convertBtn.disabled = false;
+        }
+
+        async function convertToPdf() {
+            if (!selectedFile || apiKey === 'YOUR_CLOUDMERSIVE_API_KEY') { if(apiKey === 'YOUR_CLOUDMERSIVE_API_KEY') alert('API Key is missing.'); return; }
+            convertBtn.disabled = true;
+            convertBtn.innerHTML = `<i class="fas fa-spinner fa-spin" style="margin-right: 10px;"></i> Converting...`;
+            const formData = new FormData();
+            formData.append('inputFile', selectedFile);
+            try {
+                const response = await fetch('https://api.cloudmersive.com/convert/pptx/to/pdf', { method: 'POST', headers: { 'Apim-Subscription-Key': apiKey }, body: formData });
+                if (!response.ok) { throw new Error(`API Error: ${response.status} ${response.statusText}`); }
+                const blob = await response.blob();
+                downloadBtn.href = URL.createObjectURL(blob);
+                const originalFilename = selectedFile.name.substring(0, selectedFile.name.lastIndexOf('.'));
+                downloadBtn.download = `${originalFilename}.pdf`;
+                actionButtons.style.display = 'none';
+                previewArea.style.display = 'none';
+                resultSection.style.display = 'block';
+            } catch (error) { console.error("Conversion Error:", error); alert("An error occurred during conversion. The API may be down or the file may be corrupted. Please try again later."); resetTool(); }
+        }
+
+        function resetTool() {
+            selectedFile = null;
+            uploadArea.style.display = 'flex';
+            previewArea.style.display = 'none';
+            actionButtons.style.display = 'none';
+            resultSection.style.display = 'none';
+            fileInput.value = '';
+            convertBtn.disabled = true;
+            convertBtn.innerHTML = `<i class="fas fa-exchange-alt" style="margin-right: 10px;"></i> Convert to PDF`;
+        }
+    </script>
+</body>
+</html>
