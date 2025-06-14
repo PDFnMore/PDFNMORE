@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online Color Picker from Image | Extract HEX & RGB Codes | PDFnMore</title>
+    <meta name="description" content="Easily pick colors from any uploaded image. Our online tool lets you extract the exact HEX and RGB color codes from any pixel with a magnifying glass loupe. Free, fast, and secure.">
+    <link rel="canonical" href="https://your-domain.com/color-picker-from-image.html" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #E53935; --accent: #2C3E50; --light: #ffffff; --light-gray: #f8f9fa; --medium-gray: #e9ecef; --dark-gray: #495057; --dark: #212529; --success: #28a745;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--light-gray); color: var(--dark); line-height: 1.6; }
+        header { background-color: var(--light); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000; padding: 15px 5%; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .header-left { display: flex; align-items: center; gap: 40px; }
+        .logo { display: flex; align-items: center; text-decoration: none; }
+        .logo-icon { font-size: 28px; color: var(--primary); margin-right: 10px; position: relative; }
+        .logo-gear { font-size: 14px; color: var(--accent); position: absolute; left: 18px; top: 8px; }
+        .logo-text { font-size: 22px; font-weight: 700; color: var(--accent); }
+        .logo-text span { color: var(--primary); font-weight: 800; }
+        .logo-text .light { font-weight: 400; color: var(--accent); }
+        nav ul { display: flex; list-style: none; gap: 25px; }
+        nav ul li a { text-decoration: none; color: var(--accent); font-weight: 500; transition: color 0.3s; display: flex; align-items: center; gap: 8px; }
+        nav ul li a:hover { color: var(--primary); }
+        .header-right { display: flex; align-items: center; }
+        .social-icons { display: flex; align-items: center; gap: 15px; }
+        .social-icons a { color: var(--accent); font-size: 18px; transition: color 0.3s; text-decoration: none; }
+        .social-icons a:hover { color: var(--primary); }
+        .contact-email { margin-left: 20px; color: var(--accent); font-size: 14px; padding-left: 20px; border-left: 1px solid var(--medium-gray); }
+
+        .tool-page-container { max-width: 800px; margin: 0 auto; padding: 40px 5%; }
+        .tool-header { text-align: center; margin-bottom: 40px; }
+        .tool-header .breadcrumbs { margin-bottom: 10px; color: var(--dark-gray); font-size: 15px; }
+        .tool-header .breadcrumbs a { color: var(--primary); text-decoration: none; }
+        .tool-header .breadcrumbs a:hover { text-decoration: underline; }
+        .tool-header h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 10px; }
+        .tool-header p { font-size: 1.1rem; color: var(--dark-gray); max-width: 800px; margin: 0 auto; }
+        .tool-box { background-color: var(--light); border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); padding: 30px; border: 1px solid var(--medium-gray); }
+        
+        .upload-area { border: 3px dashed var(--medium-gray); border-radius: 10px; padding: 40px 20px; text-align: center; cursor: pointer; transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 250px; }
+        .upload-area.drag-over { border-color: var(--primary); background-color: rgba(229, 57, 53, 0.05); }
+        #file-input { display: none; }
+        
+        #picker-wrapper { display: none; }
+        #image-canvas-container { position: relative; cursor: crosshair; margin-bottom: 20px; }
+        #image-canvas { max-width: 100%; display: block; background-color: var(--light-gray); }
+        #loupe { display: none; width: 150px; height: 150px; border: 3px solid var(--accent); border-radius: 50%; position: absolute; background-repeat: no-repeat; box-shadow: 0 5px 15px rgba(0,0,0,0.3); pointer-events: none; }
+        
+        .color-results { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; align-items: center; background-color: var(--light-gray); padding: 20px; border-radius: 8px; }
+        .color-swatch { width: 80px; height: 80px; border-radius: 8px; border: 2px solid var(--medium-gray); }
+        .color-codes { display: flex; flex-direction: column; gap: 10px; }
+        .color-code-item { display: flex; align-items: center; gap: 10px; }
+        .color-code-item input { flex-grow: 1; padding: 8px; border: 1px solid var(--medium-gray); border-radius: 5px; font-weight: bold; }
+        .copy-btn { padding: 8px 12px; border: 1px solid var(--medium-gray); background-color: white; border-radius: 5px; cursor: pointer; }
+        
+        .action-buttons { text-align: center; margin-top: 25px; }
+        .btn { padding: 12px 24px; border-radius: 5px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; border: none; cursor: pointer; }
+        
+        .content-section { background-color: var(--light); padding: 40px; margin-top: 40px; border-radius: 10px; border: 1px solid var(--medium-gray); }
+        .content-section h2 { font-size: 1.8rem; color: var(--accent); margin-bottom: 20px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+        .how-to-steps { list-style: none; counter-reset: step-counter; padding-left: 0; }
+        .how-to-steps li { counter-increment: step-counter; margin-bottom: 20px; display: flex; align-items: flex-start; }
+        .how-to-steps li::before { content: counter(step-counter); background: var(--primary); color: white; font-weight: bold; border-radius: 50%; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
+        .faq-item { margin-bottom: 10px; }
+        .faq-item summary { font-weight: 600; color: var(--accent); cursor: pointer; padding: 15px; background-color: var(--light-gray); border-radius: 5px; list-style: none; position: relative; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: 20px; transition: transform 0.3s; }
+        .faq-item[open] summary::after { transform: rotate(180deg); }
+        .faq-item .faq-answer { padding: 15px; border-left: 3px solid var(--primary); margin-left: 5px; background: #fafafa; }
+        
+        footer { background-color: var(--accent); color: white; padding: 60px 5% 30px; margin-top: 60px; }
+        .footer-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+        .footer-logo { display: flex; align-items: center; margin-bottom: 25px; }
+        .footer-logo .logo-icon { color: white; }
+        .footer-logo .logo-gear { color: white; }
+        .footer-logo .logo-text { color: white; font-size: 24px; }
+        .footer-logo .logo-text span { color: var(--primary); }
+        .footer-logo .logo-text .light { color: rgba(255, 255, 255, 0.9); }
+        .footer-about p { color: rgba(255, 255, 255, 0.7); margin-bottom: 25px; line-height: 1.7; }
+        .footer-links h3, .footer-contact h3 { color: white; margin-bottom: 25px; font-size: 20px; position: relative; padding-bottom: 10px; }
+        .footer-links h3::after, .footer-contact h3::after { content: ""; position: absolute; bottom: 0; left: 0; width: 50px; height: 2px; background-color: var(--primary); }
+        .footer-links ul { list-style: none; padding-left: 0; }
+        .footer-links ul li { margin-bottom: 12px; }
+        .footer-links ul li a { color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .footer-links ul li a:hover { color: var(--primary); transform: translateX(5px); }
+        .footer-contact p { color: rgba(255, 255, 255, 0.7); margin-bottom: 15px; display: flex; align-items: center; transition: all 0.3s; }
+        .footer-contact i { margin-right: 12px; color: var(--primary); font-size: 18px; min-width: 25px; }
+        .footer-social { margin-top: 25px; }
+        .footer-social a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: rgba(255, 255, 255, 0.1); color: white; border-radius: 50%; margin-right: 10px; text-decoration: none; }
+        .footer-social a:hover { background-color: var(--primary); transform: translateY(-3px); }
+        .footer-bottom { text-align: center; padding-top: 40px; margin-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.5); font-size: 14px; grid-column: 1 / -1; }
+        .logo-inline { display: inline-flex; align-items: center; vertical-align: middle; }
+        .logo-inline .logo-icon { font-size: 1.2em; margin-right: 5px; }
+        .logo-inline .logo-gear { font-size: 0.6em; left: 0.8em; top: 0.4em; }
+        .logo-inline .logo-text { font-size: 1em; }
+        
+        @media (max-width: 992px) { .footer-container { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .header-container { flex-direction: column; gap: 15px; } .header-left, .header-right { width: 100%; justify-content: space-between; } .contact-email { display: none; } .tool-header h1 { font-size: 2rem; } .content-section { padding: 25px; } }
+        @media (max-width: 576px) { .footer-container { grid-template-columns: 1fr; } .tool-box { padding: 20px; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="header-left">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><i class="fas fa-file-alt"></i><i class="fas fa-cog logo-gear"></i></div>
+                    <div class="logo-text"><span>PDF</span><span class="light">nMore</span></div>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="index.html#tools"><i class="fas fa-tools"></i> Tools</a></li>
+                        <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
+                        <li><a href="#footer"><i class="fas fa-envelope"></i> Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-right">
+                <div class="social-icons">
+                    <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span class="contact-email">pdfnmore@gmail.com</span>
+            </div>
+        </div>
+    </header>
+    
+    <main class="tool-page-container">
+        <div class="tool-header">
+            <p class="breadcrumbs"><a href="index.html">Home</a> &gt; <a href="index.html#image-tools">Image Tools</a> &gt; <span>Color Picker from Image</span></p>
+            <h1>Online Color Picker from Image</h1>
+            <p>Upload an image and use our magnifying glass to pick the perfect color. Instantly get HEX and RGB codes for your design projects.</p>
+        </div>
+
+        <div class="tool-box">
+            <label for="file-input" class="upload-area" id="upload-area">
+                <i class="fas fa-eye-dropper"></i>
+                <div class="upload-area-text"><strong>Drag & Drop</strong> your image here or<br><strong>Click to Upload</strong></div>
+            </label>
+            <input type="file" id="file-input" accept="image/jpeg, image/png, image/webp, image/bmp">
+
+            <div id="picker-wrapper">
+                <p style="text-align: center; color: var(--dark-gray); margin-bottom: 15px;">Move your mouse over the image to see colors. Click to select.</p>
+                <div id="image-canvas-container">
+                    <canvas id="image-canvas"></canvas>
+                    <div id="loupe"></div>
+                </div>
+                <div class="color-results">
+                    <div id="color-swatch" class="color-swatch"></div>
+                    <div class="color-codes">
+                        <div class="color-code-item">
+                            <label for="hex-code">HEX:</label>
+                            <input type="text" id="hex-code" readonly>
+                            <button class="copy-btn" data-target="hex-code"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <div class="color-code-item">
+                            <label for="rgb-code">RGB:</label>
+                            <input type="text" id="rgb-code" readonly>
+                            <button class="copy-btn" data-target="rgb-code"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button id="start-over-btn" class="btn" style="background-color: var(--primary); color: white;"><i class="fas fa-plus-circle"></i> Use Another Image</button>
+                </div>
+            </div>
+        </div>
+
+        <section class="content-section" id="how-to">
+            <h2><i class="fas fa-question-circle"></i>How to Pick a Color from an Image</h2>
+            <ol class="how-to-steps">
+                <li><strong>Upload Your Image:</strong> Drag an image file onto the designated area or click to select one from your device.</li>
+                <li><strong>Hover to Find Colors:</strong> Move your mouse cursor over the uploaded image. A magnifying loupe will appear, showing you a zoomed-in view of the pixels.</li>
+                <li><strong>See Live Color Values:</strong> As you move the mouse, the color swatch and the HEX/RGB code boxes will update in real-time with the color of the pixel directly under your cursor.</li>
+                <li><strong>Click to Select:</strong> When you find the perfect color, simply click the mouse. This will "lock" the color values in the display boxes.</li>
+                <li><strong>Copy the Code:</strong> Click the copy button next to the HEX or RGB code to copy it to your clipboard for use in your projects.</li>
+            </ol>
+        </section>
+
+        <section class="content-section" id="faq">
+             <h2><i class="fas fa-comments"></i>Frequently Asked Questions</h2>
+            <details class="faq-item" open><summary>Are my images safe with this tool?</summary><div class="faq-answer"><p>Yes, 100% safe. This tool is powered by client-side JavaScript, which means your image is processed directly in your browser. It is never uploaded to our or any other server, ensuring your privacy.</p></div></details>
+            <details class="faq-item"><summary>What's the difference between HEX and RGB?</summary><div class="faq-answer"><p>Both are ways to represent colors digitally. <strong>RGB</strong> (Red, Green, Blue) uses three numbers (from 0 to 255) to define the intensity of red, green, and blue. <strong>HEX</strong> (Hexadecimal) is a six-digit code that represents the same RGB values in a more compact format, commonly used in web design (CSS).</p></div></details>
+             <details class="faq-item"><summary>How accurate is the color picker?</summary><div class="faq-answer"><p>It is pixel-perfect. The tool reads the exact color data from the single pixel directly underneath your mouse cursor, providing the most accurate color values possible from the image.</p></div></details>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <div class="footer-container">
+            <div class="footer-about">
+                <div class="footer-logo">
+                    <div class="logo-icon"><i class="fas fa-file-alt"></i><i class="fas fa-cog logo-gear"></i></div>
+                    <div class="logo-text"><span>PDF</span><span class="light">nMore</span></div>
+                </div>
+                <p>Making everyday digital tasks easier with our comprehensive suite of free online tools for PDFs, images, text, web development, and more.</p>
+                <div class="footer-social">
+                    <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>Tool Categories</h3>
+                <ul>
+                    <li><a href="index.html#image-tools"><i class="fas fa-image"></i> Image Tools</a></li>
+                    <li><a href="index.html#pdf-tools"><i class="fas fa-file-pdf"></i> PDF Tools</a></li>
+                    <li><a href="index.html#calculator-tools"><i class="fas fa-calculator"></i> Calculator Tools</a></li>
+                    <li><a href="index.html#text-tools"><i class="fas fa-font"></i> Text Tools</a></li>
+                    <li><a href="index.html#web-tools"><i class="fas fa-code"></i> Developer Tools</a></li>
+                    <li><a href="index.html#color-tools"><i class="fas fa-palette"></i> Color Tools</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="index.html#tools"><i class="fas fa-tools"></i> All Tools</a></li>
+                    <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li><a href="#"><i class="fas fa-blog"></i> Blog</a></li>
+                    <li><a href="#"><i class="fas fa-graduation-cap"></i> Tutorials</a></li>
+                    <li><a href="#footer"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact & Legal</h3>
+                <p><i class="fas fa-envelope"></i> pdfnmore@gmail.com</p>
+                <ul style="list-style: none; margin-top: 15px;">
+                    <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fas fa-file-contract"></i> Terms of Use</a></li>
+                    <li><a href="#"><i class="fas fa-cookie"></i> Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 <span class="logo-inline"><span class="logo-icon"><i class="fas fa-file-alt"></i><i class="fas fa-cog logo-gear"></i></span><span class="logo-text"><span>PDF</span><span class="light">nMore</span></span></span>. All rights reserved. | Making digital life simpler since 2023</p>
+        </div>
+    </footer>
+
+    <script>
+        const fileInput = document.getElementById('file-input'); const uploadArea = document.getElementById('upload-area'); const pickerWrapper = document.getElementById('picker-wrapper'); const canvasContainer = document.getElementById('image-canvas-container'); const canvas = document.getElementById('image-canvas'); const ctx = canvas.getContext('2d'); const loupe = document.getElementById('loupe'); const colorSwatch = document.getElementById('color-swatch'); const hexInput = document.getElementById('hex-code'); const rgbInput = document.getElementById('rgb-code'); const copyBtns = document.querySelectorAll('.copy-btn'); const startOverBtn = document.getElementById('start-over-btn');
+        let originalImage = null; let pickedColor = null;
+
+        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
+        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
+        uploadArea.addEventListener('drop', (e) => { e.preventDefault(); uploadArea.classList.remove('drag-over'); const files = e.dataTransfer.files; if (files.length > 0) handleFile(files[0]); });
+        fileInput.addEventListener('change', () => { if (fileInput.files.length > 0) handleFile(fileInput.files[0]); });
+        startOverBtn.addEventListener('click', resetTool);
+
+        function handleFile(file) { if (!file.type.startsWith('image/')) { alert('Please upload a valid image file.'); return; } const reader = new FileReader(); reader.onload = (e) => { originalImage = new Image(); originalImage.onload = () => { uploadArea.style.display = 'none'; pickerWrapper.style.display = 'block'; canvas.width = originalImage.width; canvas.height = originalImage.height; ctx.drawImage(originalImage, 0, 0); loupe.style.backgroundImage = `url(${originalImage.src})`; }; originalImage.src = e.target.result; }; reader.readAsDataURL(file); }
+        
+        canvasContainer.addEventListener('mousemove', (e) => { const rect = canvas.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top; const pixelData = ctx.getImageData(x, y, 1, 1).data; const rgb = `rgb(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]})`; const hex = rgbToHex(pixelData[0], pixelData[1], pixelData[2]); updateColorInfo(rgb, hex); loupe.style.display = 'block'; loupe.style.left = `${e.clientX - rect.left - loupe.offsetWidth / 2}px`; loupe.style.top = `${e.clientY - rect.top - loupe.offsetHeight / 2}px`; const bgPosX = (-x * 5) + (loupe.offsetWidth / 2); const bgPosY = (-y * 5) + (loupe.offsetHeight / 2); loupe.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`; loupe.style.backgroundSize = `${originalImage.width * 5}px ${originalImage.height * 5}px`; });
+        
+        canvasContainer.addEventListener('mouseleave', () => { loupe.style.display = 'none'; if (pickedColor) updateColorInfo(pickedColor.rgb, pickedColor.hex); });
+        canvasContainer.addEventListener('click', (e) => { const rect = canvas.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top; const pixelData = ctx.getImageData(x, y, 1, 1).data; pickedColor = { rgb: `rgb(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]})`, hex: rgbToHex(pixelData[0], pixelData[1], pixelData[2]) }; updateColorInfo(pickedColor.rgb, pickedColor.hex, true); });
+
+        copyBtns.forEach(btn => { btn.addEventListener('click', () => { const targetId = btn.dataset.target; const input = document.getElementById(targetId); input.select(); navigator.clipboard.writeText(input.value); const originalText = btn.innerHTML; btn.innerHTML = '<i class="fas fa-check"></i>'; setTimeout(() => { btn.innerHTML = originalText; }, 1500); }); });
+
+        function updateColorInfo(rgb, hex, isClick = false) { colorSwatch.style.backgroundColor = rgb; hexInput.value = hex; rgbInput.value = rgb; if(isClick) { loupe.style.borderColor = hex; } else { loupe.style.borderColor = 'var(--accent)'; } }
+        function rgbToHex(r, g, b) { return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase(); }
+        function resetTool() { uploadArea.style.display = 'flex'; pickerWrapper.style.display = 'none'; fileInput.value = ''; originalImage = null; pickedColor = null; updateColorInfo('transparent', '', ''); }
+    </script>
+</body>
+</html>

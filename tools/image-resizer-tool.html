@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online Image Resizer - Resize JPG, PNG by Pixels or Percentage | PDFnMore</title>
+    <meta name="description" content="Easily resize your images to specific dimensions (pixels) or by a percentage. Our free online tool for resizing JPG, PNG, and WebP images is fast, secure, and works in your browser.">
+    <link rel="canonical" href="https://your-domain.com/image-resizer.html" /> <!-- **IMPORTANT: Change this to your actual URL when you deploy** -->
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #E53935;
+            --accent: #2C3E50;
+            --light: #ffffff;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #495057;
+            --dark: #212529;
+            --success: #28a745;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--light-gray); color: var(--dark); line-height: 1.6; }
+        
+        /* Header, Footer, and Base Styles */
+        header { background-color: var(--light); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000; padding: 15px 5%; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .header-left { display: flex; align-items: center; gap: 40px; }
+        .logo { display: flex; align-items: center; text-decoration: none; }
+        .logo-icon { font-size: 28px; color: var(--primary); margin-right: 10px; position: relative; }
+        .logo-gear { font-size: 14px; color: var(--accent); position: absolute; left: 18px; top: 8px; }
+        .logo-text { font-size: 22px; font-weight: 700; color: var(--accent); }
+        .logo-text span { color: var(--primary); font-weight: 800; }
+        .logo-text .light { font-weight: 400; color: var(--accent); }
+        nav ul { display: flex; list-style: none; gap: 25px; }
+        nav ul li a { text-decoration: none; color: var(--accent); font-weight: 500; transition: color 0.3s; display: flex; align-items: center; gap: 8px; }
+        nav ul li a:hover { color: var(--primary); }
+        .header-right { display: flex; align-items: center; }
+        .social-icons { display: flex; align-items: center; gap: 15px; }
+        .social-icons a { color: var(--accent); font-size: 18px; transition: color 0.3s; text-decoration: none; }
+        .social-icons a:hover { color: var(--primary); }
+        .contact-email { margin-left: 20px; color: var(--accent); font-size: 14px; padding-left: 20px; border-left: 1px solid var(--medium-gray); }
+
+        .tool-page-container { max-width: 800px; margin: 0 auto; padding: 40px 5%; }
+        .tool-header { text-align: center; margin-bottom: 40px; }
+        .tool-header .breadcrumbs { margin-bottom: 10px; color: var(--dark-gray); font-size: 15px; }
+        .tool-header .breadcrumbs a { color: var(--primary); text-decoration: none; }
+        .tool-header .breadcrumbs a:hover { text-decoration: underline; }
+        .tool-header h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 10px; }
+        .tool-header p { font-size: 1.1rem; color: var(--dark-gray); max-width: 800px; margin: 0 auto; }
+        .tool-box { background-color: var(--light); border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); padding: 30px; border: 1px solid var(--medium-gray); }
+        
+        /* Upload & Preview Area */
+        .upload-area { border: 3px dashed var(--medium-gray); border-radius: 10px; padding: 40px 20px; text-align: center; cursor: pointer; transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 250px; }
+        .upload-area.drag-over { border-color: var(--primary); background-color: rgba(229, 57, 53, 0.05); }
+        .upload-area i { font-size: 48px; color: var(--primary); margin-bottom: 15px; }
+        .upload-area-text { font-size: 18px; color: var(--dark-gray); font-weight: 500; }
+        #file-input { display: none; }
+        #file-preview-area { display: none; border: 1px solid var(--medium-gray); border-radius: 10px; padding: 20px; background-color: var(--light-gray); position: relative; text-align: center; }
+        #remove-file-btn { position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; background: var(--dark-gray); color: white; border: none; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s; z-index: 10; }
+        #remove-file-btn:hover { background-color: var(--primary); }
+        #preview-thumbnail { max-width: 100%; max-height: 250px; border-radius: 5px; margin-bottom: 15px; border: 1px solid var(--medium-gray); }
+        #file-name { font-weight: 600; color: var(--accent); word-break: break-all; }
+        #file-size { color: var(--dark-gray); font-size: 14px; }
+        
+        /* Options Section */
+        .options-section { display: none; margin-top: 30px; border-top: 1px solid var(--medium-gray); padding-top: 30px; }
+        .option-group { margin-bottom: 20px; }
+        .option-group label { font-weight: 600; margin-bottom: 8px; color: var(--accent); display: block; }
+        .dimension-inputs { display: flex; align-items: center; gap: 15px; }
+        .dimension-inputs input[type="number"] { width: 100px; padding: 10px; border: 1px solid var(--medium-gray); border-radius: 5px; font-size: 1rem; }
+        .dimension-inputs .separator { font-size: 1.5rem; color: var(--dark-gray); }
+        .aspect-lock-wrapper { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; margin-left: 15px; }
+        .aspect-lock-wrapper input { width: 18px; height: 18px; }
+        .original-dims { background-color: var(--light-gray); padding: 8px 12px; border-radius: 5px; font-size: 14px; color: var(--dark-gray); margin-bottom: 15px; display: inline-block; }
+        .original-dims span { font-weight: bold; color: var(--accent); }
+        .action-buttons { text-align: center; margin-top: 30px; display: none; }
+        
+        /* Result Section */
+        .btn { padding: 14px 30px; border-radius: 5px; font-weight: 600; text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); cursor: pointer; border: none; justify-content: center; }
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-primary:hover { background-color: #c62828; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(229, 57, 53, 0.3); }
+        .btn-primary:disabled { background-color: var(--medium-gray); color: var(--dark-gray); cursor: not-allowed; transform: none; box-shadow: none;}
+        .btn-success { background-color: var(--success); color: white; }
+        .btn-success:hover { background-color: #218838; }
+        .btn-secondary { background-color: white; color: var(--accent); border: 1px solid var(--medium-gray); }
+        .btn-secondary:hover { background-color: var(--light-gray); transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); }
+        .result-section { display: none; margin-top: 30px; text-align: center; background-color: var(--light-gray); padding: 20px; border-radius: 8px; }
+        .result-section h2 { color: var(--success); margin-bottom: 10px; font-size: 1.5rem; }
+        .result-stats { display: flex; justify-content: space-around; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .stat-item { font-size: 1rem; }
+        .stat-item span { font-weight: bold; color: var(--accent); }
+        .download-buttons { display: flex; gap: 15px; justify-content: center; }
+        
+        /* Content & FAQ Sections */
+        .content-section { background-color: var(--light); padding: 40px; margin-top: 40px; border-radius: 10px; border: 1px solid var(--medium-gray); }
+        .content-section h2 { font-size: 1.8rem; color: var(--accent); margin-bottom: 20px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+        .content-section p, .content-section li { color: var(--dark-gray); line-height: 1.8; margin-bottom: 15px; }
+        .how-to-steps { list-style: none; counter-reset: step-counter; padding-left: 0; }
+        .how-to-steps li { counter-increment: step-counter; margin-bottom: 20px; display: flex; align-items: flex-start; }
+        .how-to-steps li::before { content: counter(step-counter); background: var(--primary); color: white; font-weight: bold; border-radius: 50%; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; }
+        .faq-item { margin-bottom: 10px; }
+        .faq-item summary { font-weight: 600; color: var(--accent); cursor: pointer; padding: 15px; background-color: var(--light-gray); border-radius: 5px; list-style: none; position: relative; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: 20px; transition: transform 0.3s; }
+        .faq-item[open] summary::after { transform: rotate(180deg); }
+        .faq-item .faq-answer { padding: 15px; border-left: 3px solid var(--primary); margin-left: 5px; background: #fafafa; }
+        
+        /* Footer */
+        footer { background-color: var(--accent); color: white; padding: 60px 5% 30px; margin-top: 60px; }
+        .footer-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+        .footer-logo { display: flex; align-items: center; margin-bottom: 25px; }
+        .footer-logo .logo-icon { color: white; } .footer-logo .logo-gear { color: white; } .footer-logo .logo-text { color: white; font-size: 24px; } .footer-logo .logo-text span { color: var(--primary); } .footer-logo .logo-text .light { color: rgba(255, 255, 255, 0.9); }
+        .footer-about p { color: rgba(255, 255, 255, 0.7); margin-bottom: 25px; line-height: 1.7; }
+        .footer-links h3, .footer-contact h3 { color: white; margin-bottom: 25px; font-size: 20px; position: relative; padding-bottom: 10px; }
+        .footer-links h3::after, .footer-contact h3::after { content: ""; position: absolute; bottom: 0; left: 0; width: 50px; height: 2px; background-color: var(--primary); }
+        .footer-links ul { list-style: none; padding-left: 0; } .footer-links ul li { margin-bottom: 12px; }
+        .footer-links ul li a { color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px;}
+        .footer-links ul li a:hover { color: var(--primary); transform: translateX(5px); }
+        .footer-contact p { color: rgba(255, 255, 255, 0.7); margin-bottom: 15px; display: flex; align-items: center; transition: all 0.3s; }
+        .footer-contact p:hover { color: white; }
+        .footer-contact i { margin-right: 12px; color: var(--primary); font-size: 18px; min-width: 25px; }
+        .footer-social { margin-top: 25px; }
+        .footer-social a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background-color: rgba(255, 255, 255, 0.1); color: white; border-radius: 50%; margin-right: 10px; transition: all 0.3s; text-decoration: none; }
+        .footer-social a:hover { background-color: var(--primary); transform: translateY(-3px); }
+        .footer-bottom { text-align: center; padding-top: 40px; margin-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.5); font-size: 14px; grid-column: 1 / -1; }
+        .logo-inline { display: inline-flex; align-items: center; vertical-align: middle; }
+        .logo-inline .logo-icon { font-size: 1.2em; margin-right: 5px; } .logo-inline .logo-gear { font-size: 0.6em; left: 0.8em; top: 0.4em; } .logo-inline .logo-text { font-size: 1em; }
+        
+        /* Responsive */
+        @media (max-width: 992px) { .footer-container { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .header-container { flex-direction: column; gap: 15px; } .header-left, .header-right { width: 100%; justify-content: space-between; } .contact-email { display: none; } .tool-header h1 { font-size: 2rem; } .content-section { padding: 25px; } }
+        @media (max-width: 576px) { .footer-container { grid-template-columns: 1fr; } .tool-box { padding: 20px; } .download-buttons, .result-stats { flex-direction: column; } .dimension-inputs { flex-wrap: wrap; } .aspect-lock-wrapper { margin-left: 0; margin-top: 10px; } }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Header -->
+        <div class="header-container">
+            <div class="header-left"><a href="index.html" class="logo"><div class="logo-icon"><i class="fas fa-file-alt"></i><i class="fas fa-cog logo-gear"></i></div><div class="logo-text"><span>PDF</span><span class="light">nMore</span></div></a><nav><ul><li><a href="index.html"><i class="fas fa-home"></i> Home</a></li><li><a href="index.html#tools"><i class="fas fa-tools"></i> Tools</a></li><li><a href="#"><i class="fas fa-info-circle"></i> About</a></li><li><a href="#footer"><i class="fas fa-envelope"></i> Contact</a></li></ul></nav></div>
+            <div class="header-right"><div class="social-icons"><a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a> <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a> <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a> <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a></div><span class="contact-email">pdfnmore@gmail.com</span></div>
+        </div>
+    </header>
+    
+    <main class="tool-page-container">
+        <div class="tool-header">
+            <p class="breadcrumbs"><a href="index.html">Home</a> &gt; <a href="index.html#image-tools">Image Tools</a> &gt; <span>Image Resizer</span></p>
+            <h1>Online Image Resizer</h1>
+            <p>Change the dimensions of your JPG, PNG, or WebP images instantly. Resize by exact pixels or percentage while maintaining aspect ratio.</p>
+        </div>
+
+        <div class="tool-box">
+            <!-- Tool UI -->
+            <label for="file-input" class="upload-area" id="upload-area"><i class="fas fa-expand-alt"></i><div class="upload-area-text"><strong>Drag & Drop</strong> your image here or<br><strong>Click to Upload</strong></div></label>
+            <input type="file" id="file-input" accept="image/jpeg, image/png, image/webp">
+            <div id="file-preview-area"><button id="remove-file-btn" title="Remove file">&times;</button><img id="preview-thumbnail" src="" alt="Image Preview"><div id="preview-info"><div id="file-name"></div><div id="file-size"></div></div></div>
+            <div class="options-section" id="options-section"><div class="original-dims">Original Dimensions: <span id="original-dims-span"></span></div><div class="option-group"><label for="width-input">New Dimensions (in Pixels)</label><div class="dimension-inputs"><input type="number" id="width-input" placeholder="Width"><span class="separator">&times;</span><input type="number" id="height-input" placeholder="Height"><label class="aspect-lock-wrapper"><input type="checkbox" id="aspect-lock" checked><i class="fas fa-link"></i> Lock aspect ratio</label></div></div><div class="option-group"><label for="percentage-input">Resize by Percentage</label><div class="dimension-inputs"><input type="number" id="percentage-input" placeholder="e.g., 50" min="1" max="500"><span class="separator" style="font-size: 1.2rem; padding-left: 5px;">%</span></div></div></div>
+            <div class="action-buttons" id="action-buttons"><button class="btn btn-primary" id="resize-btn" disabled><i class="fas fa-arrows-alt-h" style="margin-right: 10px;"></i> Resize Image</button></div>
+            <div class="result-section" id="result-section"><h2><i class="fas fa-check-circle"></i> Image Resized!</h2><div class="result-stats"><div class="stat-item">New Dimensions: <span id="new-dims"></span></div><div class="stat-item">New Size: <span id="new-size"></span></div></div><div class="download-buttons"><a href="#" class="btn btn-success" id="download-btn" download><i class="fas fa-download" style="margin-right: 10px;"></i> Download</a><button class="btn btn-secondary" id="reset-btn"><i class="fas fa-sync-alt" style="margin-right: 10px;"></i> Resize Another</button></div></div>
+        </div>
+
+        <section class="content-section" id="how-to">
+            <h2><i class="fas fa-question-circle"></i>How to Resize an Image</h2>
+            <ol class="how-to-steps">
+                <li>
+                    <strong>Upload Your Image:</strong> Drag and drop your image file or click the upload area to select one.
+                </li>
+                <!-- ** CORRECTED SECTION ** -->
+                <li>
+                    <strong>Choose Resizing Method:</strong> After your image preview appears, you can set the new size in two ways:<br><br>
+                    - <strong>By Pixels:</strong> Enter a new width or height. The other dimension will update automatically if 'Lock aspect ratio' is checked.<br>
+                    - <strong>By Percentage:</strong> Enter a percentage (e.g., '50') to scale the image. The pixel values will update accordingly.
+                </li>
+                <li>
+                    <strong>Resize the Image:</strong> Click the "Resize Image" button.
+                </li>
+                <li>
+                    <strong>Download:</strong> Your resized image will be ready. Click "Download" to save it, or "Resize Another" to start over.
+                </li>
+            </ol>
+        </section>
+
+        <section class="content-section" id="faq">
+            <!-- FAQ Content -->
+            <h2><i class="fas fa-comments"></i>Frequently Asked Questions</h2>
+            <details class="faq-item" open><summary>What is aspect ratio, and why should I lock it?</summary><div class="faq-answer"><p>Aspect ratio is the proportional relationship between an image's width and height. For example, a 1920x1080 image has a 16:9 aspect ratio. <strong>Locking the aspect ratio is highly recommended</strong> because it ensures your image doesn't get stretched or squashed. When you change the width, the height adjusts automatically to keep the proportions correct, and vice-versa.</p></div></details>
+            <details class="faq-item"><summary>Will resizing my image make it look blurry or pixelated?</summary><div class="faq-answer"><ul><li><strong>Making an image smaller (downscaling)</strong> generally preserves quality very well.</li><li><strong>Making an image larger (upscaling)</strong> can cause it to look blurry, soft, or pixelated. The software has to guess what the new pixels should look like, which can reduce sharpness. It's always best to start with a large, high-quality image if you need a big final version.</li></ul></div></details>
+            <details class="faq-item"><summary>Is this image resizer safe to use?</summary><div class="faq-answer"><p>Yes. Just like our other tools, the Image Resizer works entirely in your browser. Your files are never uploaded to any external server, ensuring your data remains private and secure on your own computer.</p></div></details>
+            <details class="faq-item"><summary>What is the maximum image size I can resize?</summary><div class="faq-answer"><p>The limit is determined by your computer's memory and browser capabilities, not our tool. Most modern browsers can handle resizing very large images, but performance may be slower for files over 20-30 MB. For a smooth experience, using images under 15 MB is ideal.</p></div></details>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <!-- Footer -->
+        <div class="footer-container">
+            <div class="footer-about"><div class="footer-logo"><div class="logo-icon"><i class="fas fa-file-alt"></i><i class="fas fa-cog logo-gear"></i></div><div class="logo-text"><span>PDF</span><span class="light">nMore</span></div></div><p>Making everyday digital tasks easier with our comprehensive suite of free online tools for PDFs, images, text, web development, and more.</p><div class="footer-social"><a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a> <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a> <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a> <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a></div></div>
+            <div class="footer-links"><h3>Tool Categories</h3><ul><li><a href="index.html#image-tools"><i class="fas fa-image"></i> Image Tools</a></li><li><a href="index.html#pdf-tools"><i class="fas fa-file-pdf"></i> PDF Tools</a></li><li><a href="index.html#calculator-tools"><i class="fas fa-calculator"></i> Calculator Tools</a></li><li><a href="index.html#text-tools"><i class="fas fa-font"></i> Text Tools</a></li><li><a href="index.html#web-tools"><i class="fas fa-code"></i> Developer Tools</a></li><li><a href="index.html#color-tools"><i class="fas fa-palette"></i> Color Tools</a></li></ul></div>
+            <div class="footer-links"><h3>Quick Links</h3><ul><li><a href="index.html"><i class="fas fa-home"></i> Home</a></li><li><a href="index.html#tools"><i class="fas fa-tools"></i> All Tools</a></li><li><a href="#"><i class="fas fa-info-circle"></i> About</a></li><li><a href="#"><i class="fas fa-blog"></i> Blog</a></li><li><a href="#"><i class="fas fa-graduation-cap"></i> Tutorials</a></li><li><a href="#footer"><i class="fas fa-envelope"></i> Contact</a></li></ul></div>
+            <div class="footer-contact"><h3>Contact & Legal</h3><p><i class="fas fa-envelope"></i> pdfnmore@gmail.com</p><ul style="list-style: none; padding-left: 0;"><li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li><li><a href="#"><i class="fas fa-file-contract"></i> Terms of Use</a></li><li><a href="#"><i class="fas fa-cookie"></i> Cookie Policy</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2023 <span class="logo-inline"><span class="logo-icon"><i class="fas fa-file-alt"></i><i class="fas fa-cog logo-gear"></i></span><span class="logo-text"><span>PDF</span><span class="light">nMore</span></span></span>. All rights reserved. | Making digital life simpler since 2023</p></div>
+    </footer>
+
+    <script>
+        // All JavaScript is identical to the previous version and works with this corrected HTML.
+        const fileInput = document.getElementById('file-input'); const uploadArea = document.getElementById('upload-area'); const filePreviewArea = document.getElementById('file-preview-area'); const previewThumbnail = document.getElementById('preview-thumbnail'); const fileNameEl = document.getElementById('file-name'); const fileSizeEl = document.getElementById('file-size'); const removeFileBtn = document.getElementById('remove-file-btn'); const optionsSection = document.getElementById('options-section'); const actionButtons = document.getElementById('action-buttons'); const resizeBtn = document.getElementById('resize-btn'); const resultSection = document.getElementById('result-section'); const downloadBtn = document.getElementById('download-btn'); const resetBtn = document.getElementById('reset-btn'); const originalDimsEl = document.getElementById('original-dims-span'); const widthInput = document.getElementById('width-input'); const heightInput = document.getElementById('height-input'); const aspectLock = document.getElementById('aspect-lock'); const percentageInput = document.getElementById('percentage-input'); const newDimsEl = document.getElementById('new-dims'); const newSizeEl = document.getElementById('new-size');
+        let originalFile = null, originalDataUrl = null, originalWidth = 0, originalHeight = 0, aspectRatio = 0, isEditing = false;
+        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('drag-over'); }); uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over')); uploadArea.addEventListener('drop', (e) => { e.preventDefault(); uploadArea.classList.remove('drag-over'); const files = e.dataTransfer.files; if (files.length > 0) handleFile(files[0]); }); fileInput.addEventListener('change', () => { if (fileInput.files.length > 0) handleFile(fileInput.files[0]); }); removeFileBtn.addEventListener('click', resetTool); resetBtn.addEventListener('click', resetTool); resizeBtn.addEventListener('click', resizeImage); widthInput.addEventListener('input', handleWidthInput); heightInput.addEventListener('input', handleHeightInput); percentageInput.addEventListener('input', handlePercentageInput); aspectLock.addEventListener('change', () => { if (aspectLock.checked) handleWidthInput(); });
+        function handleFile(file) { if (!file.type.match('image/jpeg') && !file.type.match('image/png') && !file.type.match('image/webp')) { alert('Please upload a valid JPG, PNG, or WebP image.'); return; } originalFile = file; const reader = new FileReader(); reader.onload = (e) => { originalDataUrl = e.target.result; const img = new Image(); img.onload = () => { originalWidth = img.width; originalHeight = img.height; aspectRatio = originalWidth / originalHeight; uploadArea.style.display = 'none'; filePreviewArea.style.display = 'block'; previewThumbnail.src = originalDataUrl; fileNameEl.textContent = originalFile.name; fileSizeEl.textContent = formatBytes(originalFile.size); originalDimsEl.textContent = `${originalWidth} × ${originalHeight} px`; widthInput.value = originalWidth; heightInput.value = originalHeight; percentageInput.value = 100; optionsSection.style.display = 'block'; actionButtons.style.display = 'block'; resizeBtn.disabled = false; resultSection.style.display = 'none'; }; img.src = originalDataUrl; }; reader.readAsDataURL(file); }
+        function handleWidthInput() { if (isEditing) return; isEditing = true; const newWidth = parseInt(widthInput.value); if (aspectLock.checked && newWidth > 0) heightInput.value = Math.round(newWidth / aspectRatio); if (originalWidth > 0) percentageInput.value = Math.round((newWidth / originalWidth) * 100); isEditing = false; }
+        function handleHeightInput() { if (isEditing) return; isEditing = true; const newHeight = parseInt(heightInput.value); if (aspectLock.checked && newHeight > 0) widthInput.value = Math.round(newHeight * aspectRatio); if (originalWidth > 0) percentageInput.value = Math.round((parseInt(widthInput.value) / originalWidth) * 100); isEditing = false; }
+        function handlePercentageInput() { if (isEditing) return; isEditing = true; const percentage = parseInt(percentageInput.value); if (percentage > 0) { widthInput.value = Math.round(originalWidth * (percentage / 100)); heightInput.value = Math.round(originalHeight * (percentage / 100)); } isEditing = false; }
+        function resizeImage() { const newWidth = parseInt(widthInput.value); const newHeight = parseInt(heightInput.value); if (!originalDataUrl || !(newWidth > 0) || !(newHeight > 0)) { alert('Please upload an image and set valid dimensions.'); return; } resizeBtn.disabled = true; resizeBtn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 10px;"></i> Resizing...'; const canvas = document.createElement('canvas'); canvas.width = newWidth; canvas.height = newHeight; const ctx = canvas.getContext('2d'); const img = new Image(); img.onload = () => { ctx.drawImage(img, 0, 0, newWidth, newHeight); const resizedDataUrl = canvas.toDataURL(originalFile.type); downloadBtn.href = resizedDataUrl; const originalFilename = originalFile.name.substring(0, originalFile.name.lastIndexOf('.')); const extension = originalFile.name.substring(originalFile.name.lastIndexOf('.')); downloadBtn.download = `${originalFilename}-${newWidth}x${newHeight}${extension}`; newDimsEl.textContent = `${newWidth} × ${newHeight} px`; newSizeEl.textContent = formatBytes(dataURLtoBlob(resizedDataUrl).size); actionButtons.style.display = 'none'; resultSection.style.display = 'block'; }; img.src = originalDataUrl; }
+        function resetTool() { uploadArea.style.display = 'flex'; filePreviewArea.style.display = 'none'; optionsSection.style.display = 'none'; actionButtons.style.display = 'none'; resultSection.style.display = 'none'; resizeBtn.disabled = true; resizeBtn.innerHTML = '<i class="fas fa-arrows-alt-h" style="margin-right: 10px;"></i> Resize Image'; fileInput.value = ''; widthInput.value = ''; heightInput.value = ''; percentageInput.value = ''; originalFile = null; originalDataUrl = null; originalWidth = 0; originalHeight = 0; }
+        function formatBytes(bytes, decimals = 2) { if (bytes <= 0) return '0 Bytes'; const k = 1024; const dm = decimals < 0 ? 0 : decimals; const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']; const i = Math.floor(Math.log(bytes) / Math.log(k)); return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]; }
+        function dataURLtoBlob(dataurl) { let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n); while(n--){ u8arr[n] = bstr.charCodeAt(n); } return new Blob([u8arr], {type:mime}); }
+    </script>
+</body>
+</html>
