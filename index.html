@@ -500,12 +500,18 @@
                     modalContent.appendChild(closeButton);
                     modalContent.appendChild(modalBody);
 
+                    // =================== THE SCRIPT EXECUTION FIX ===================
+                    // This new method guarantees the script runs correctly after the HTML is loaded.
                     if (toolScriptContent) {
-                        const newScript = document.createElement('script');
-                        newScript.id = 'dynamic-tool-script';
-                        newScript.textContent = toolScriptContent;
-                        document.body.appendChild(newScript);
+                        try {
+                            new Function(toolScriptContent)();
+                        } catch (e) {
+                            console.error("Error executing dynamic tool script:", e);
+                            // Optionally display an error message to the user in the modal
+                            modalBody.innerHTML += `<p style="color: red; text-align: center; padding-top: 20px;">The tool's script failed to run. Please check the browser console for details.</p>`;
+                        }
                     }
+                    // ===============================================================
 
                 } catch (error) {
                     console.error('Error fetching or processing tool:', error);
